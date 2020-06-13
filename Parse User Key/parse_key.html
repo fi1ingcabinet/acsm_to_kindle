@@ -14,6 +14,123 @@
     
     <pre>b64 => hex:</pre>
     <pre id="key_hex"></pre>
+    <script>
+        base16_key = base64tobase16("MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMcmnwxRI6h5K6xrjz8pkbJ0NlQBWKbpwqAzP/wtL4BKlUm6m2lV/jKioOyH9SW6M8QNPwJxXIYyN6V5qo4xJOFp/rJb09dveSJ/zHpKiyGOEesKb8NRDHXPKrfmndIHSw3xGvx9WGxXTH5gEx7IUfMQ3Z/mVdq0BT29W2sgeX7VAgMBAAECgYAimKH+qMXSCaK9pD3RUi5eWvPpKga1kFxgKicObucWmV5P3ZwL84ViVIAyNvguYqeFgmuUyA6zvVuPYpBvfTgTpcOm0OV315fGZD5GZ7klcGISq33oAfGtMCnnt4EMQUF1RDOCHKM8gj6wjFVco6scCWQ4nHcq0ncAfvAUPAjgzQJBAPvmH5c7Qsqp+9yWyM22ses/INv+Gudt1n1XvNBCFR27JZWY+cDbyUnr5A3ElmEf/KNZyFvc1Z7QbjsW/VqqbB8CQQDKZKbnILFPzJxCjRSsFRn0GQizl2wy/IUPVO2y+gr52SeHC5gEB1NaHd6td0cPFEm/pko/ZdsFM04PVG9MlfaLAkAsxTnYJzA31P5utl36Mf5tUUsFzqP5fgwhOvbUDOqz3g9QB2BcZrPf740Y5VfU61p7rfluWlGdaG4vEmb1NlUBAkAn6L8MlmLAZI1vhhhMcoDCpGkV2McKKscmJc4VW77sU4i61WttZ/Bktb0iIYIOlCaStvyvEaulk99RoImt5WhPAkEAir0I+pxnCySTjf3hzEi5TOvhkEM+DjRxGTJlQfaddydfsz02g719FsHuYjwwbEakHsi6661i+amyMOXDwMNacw==");
+        console.log(base16_key);
+        document.getElementById('key_hex').textContent=base16_key; 
+    </script>
+    <pre> PKCS#8 => elements</pre>
+    <pre id="key_elements"></pre>
+    <h2>ID1:</h2>
+    <pre id="id1">ID1 = </pre>
+    <pre id="len1_bytes_size">Length bytes 1 = </pre>
+    <pre id="len1">Length 1 = </pre>
+    <pre id="content1">Content 1 = </pre>
+    <h2>ID2:</h2>
+    <pre id="id2">ID2 = </pre>
+    <pre id="len2_bytes_size">Length bytes 2 = </pre>
+    <pre id="len2">Length 2 = </pre>
+    <pre id="content2">Content 2 = </pre>
+    <h2>ID3:</h2>
+    <pre id="id3">ID3 = </pre>
+    <pre id="len3_bytes_size">Length bytes 3 = </pre>
+    <pre id="len3">Length 3 = </pre>
+    <pre id="content3">Content 3 = </pre>
+    <h2>ID4:</h2>
+    <pre id="id4">ID4 = </pre>
+    <pre id="len4_bytes_size">Length bytes 4 = </pre>
+    <pre id="len4">Length 4 = </pre>
+    <pre id="content4">Content 4 = </pre>
+    <h2>ID5:</h2>
+    <pre id="id5">ID5 = </pre>
+    <pre id="len5_bytes_size">Length bytes 5 = </pre>
+    <pre id="len5">Length 5 = </pre>
+    <pre id="content5">Content 5 = </pre>
+    <h2>ID6:</h2>
+    <pre id="id6">ID6 = </pre>
+    <pre id="len6_bytes_size">Length bytes 6 = </pre>
+    <pre id="len6">Length 6 = </pre>
+    <pre id="content6">Content 6 = </pre>
+    <h2>ID7:</h2>
+    <pre id="id7">ID7 = </pre>
+    <pre id="len7_bytes_size">Length bytes 7 = </pre>
+    <pre id="len7">Length 7 = </pre>
+    <pre id="content7">Content 7 = </pre>
+    <script>
+        key = parse_key(base16_key);
+        
+        //id1
+        id1 = key.id1;
+        document.getElementById('id1').textContent += id1;
+        len1_bytes_size = key.len1_bytes_size;
+        document.getElementById('len1_bytes_size').textContent += len1_bytes_size;
+        len1 = key.length1;
+        document.getElementById('len1').textContent += len1;
+        content1 = key.content1;
+        document.getElementById('content1').textContent += content1;
+        
+        //id2
+        id2 = key.id2;
+        document.getElementById('id2').textContent += id2;
+        len2_bytes_size = key.len2_bytes_size;
+        document.getElementById('len2_bytes_size').textContent += len2_bytes_size;
+        len2 = key.length2;
+        document.getElementById('len2').textContent += len2;
+        content2 = key.content2;
+        document.getElementById('content2').textContent += content2;
+        
+        //id3
+        id3 = key.id3;
+        document.getElementById('id3').textContent += id3;
+        len3_bytes_size = key.len3_bytes_size;
+        document.getElementById('len3_bytes_size').textContent += len3_bytes_size;
+        len3 = key.length3;
+        document.getElementById('len3').textContent += len3;
+        content3 = key.content3;
+        document.getElementById('content3').textContent += content3;
+        
+        //id4
+        id4 = key.id4;
+        document.getElementById('id4').textContent += id4;
+        len4_bytes_size = key.len4_bytes_size;
+        document.getElementById('len4_bytes_size').textContent += len4_bytes_size;
+        len4 = key.length4;
+        document.getElementById('len4').textContent += len4;
+        content4 = key.content4;
+        document.getElementById('content4').textContent += content4;
+        
+        //id5
+        id5 = key.id5;
+        document.getElementById('id5').textContent += id5;
+        len5_bytes_size = key.len3_bytes_size;
+        document.getElementById('len5_bytes_size').textContent += len5_bytes_size;
+        len5 = key.length5;
+        document.getElementById('len5').textContent += len5;
+        content5 = key.content5;
+        document.getElementById('content5').textContent += content5;
+        
+        //id6
+        id6 = key.id6;
+        document.getElementById('id6').textContent += id6;
+        len6_bytes_size = key.len3_bytes_size;
+        document.getElementById('len6_bytes_size').textContent += len6_bytes_size;
+        len6 = key.length6;
+        document.getElementById('len6').textContent += len6;
+        content6 = key.content6;
+        document.getElementById('content6').textContent += content6;
+        
+        //id7
+        id7 = key.id7;
+        document.getElementById('id7').textContent += id7;
+        len7_bytes_size = key.len3_bytes_size;
+        document.getElementById('len7_bytes_size').textContent += len7_bytes_size;
+        len7 = key.length7;
+        document.getElementById('len7').textContent += len7;
+        content7 = key.content7;
+        document.getElementById('content7').textContent += content7;
+        
+        
+    </script>
 
 
 
