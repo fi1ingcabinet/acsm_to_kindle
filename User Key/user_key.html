@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ascm user key display content</title>
+    <script src="user_key.js"></script>
+
+</head>
+<body>
+
+    <h1>Upload a key file and display the elements:</h1>   
+    
+    <input type="file" name="inputfile" id="inputfile">
+    
+    <p id="output"></p> 
+    <p id="file_upload" style="display:none">File Uploaded successfully &#9989;</p>
+      
+    <script type="text/javascript"> 
+        var mySubString = "";
+        document.getElementById('inputfile').addEventListener('change', function() { 
+            var fr=new FileReader(); 
+            fr.onload=function(){ 
+                //console.log(fr.result);
+                mySubString = fr.result.substring(
+                    fr.result.lastIndexOf("<adept:privateLicenseKey>") + 25, 
+                    fr.result.lastIndexOf("</adept:privateLicenseKey>")
+                );
+                document.getElementById('output').textContent=mySubString; 
+                //mySubString = console.log(mySubString);
+                return mySubString;
+            }
+              
+            mySubString = fr.readAsText(this.files[0]);
+            console.log(mySubString);
+            
+            document.getElementById("file_upload").style.display = "block";
+            
+        }) 
+    </script>
+    
+    <button onclick="test_function()">Test button</button>
+    
+
+
+
+</body>
+</html>

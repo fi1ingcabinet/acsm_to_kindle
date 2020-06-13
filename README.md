@@ -7,7 +7,7 @@ Javascript only implementation to convert ascm to Kindle
 -    1.2. 
 -    2. (IF ENCRYPTED) Locate encryption key and create book
 -    2.1. If the book elements are encrypted get the key from rights.xml
--    2.2. Also get the second file upload for user key
+-Y    2.2. Get the second file upload for user key
 -    2.3. parse user key
 -    2.4. decrypt book key with user key
 -    2.5. Create a new book template with all unencrypted files (excl config files)
