@@ -15,7 +15,8 @@
 <h2>Content :</h2>
 <div id="result"></div>
 <script type="text/javascript" src="JSZip%20example%20the%20File%20API_files/jquery-1.js"></script>
-<script type="text/javascript" src="JSZip%20example%20the%20File%20API_files/jszip.js"></script>
+<script type="text/javascript" src="JSZip%20example%20the%20File%20API_files/jszip_v3.js"></script>
+    <script type="text/javascript" src="JSZip%20example%20the%20File%20API_files/jszip-utils.js"></script>
 
     
     
@@ -138,11 +139,33 @@
                 $result.append($title);
                 var $ul = $("<ul>");
                 try {
+                    
+                    // version3
+                    JSZipUtils.getBinaryContent(theFile, function(err, data) {
+                        if(err) {
+                            throw err; // or handle err
+                        }
+
+                        JSZip.loadAsync(data).then(function () {
+                            
+                            console.log("test");
+                            console.log("test");
+                            // ...
+                        });
+                    });
+                    
+                    /* //version 2
+                    
+                    console.log("test");
 
                   var dateBefore = new Date();
                   // read the content of the file with JSZip
-                  var zip = new JSZip(e.target.result);
-                  var dateAfter = new Date();                
+                    console.log("test");
+                  //var zip = new JSZip(e.target.result);
+                    console.log("test");
+                  var dateAfter = new Date();     
+                    
+                    console.log("test");
 
                   $title.append($("<span>", {
                     text:" (parsed in " + (dateAfter - dateBefore) + "ms)"
@@ -154,6 +177,7 @@
                       //
                       var book = [];
                       var book_encrypted = [];
+                    console.log("test");
 
                   // that, or a good ol' for(var entryName in zip.files)
                   $.each(zip.files, function (index, zipEntry) {
@@ -167,6 +191,16 @@
                       if (zipEntry.name =="META-INF/encryption.xml"){
                           $ul.append("<li>" + zipEntry.name + zipEntry.asText() + "</li>");
                           var lines = zipEntry.asText().split(/[\r\n]+/g);
+                          
+                          //
+                          // TRY V3 asText()
+                          //
+                            zip.file("EPUB/images/img_0013.png").async("string")
+                            .then(function (content) {
+                                console.log("test");
+                                console.log(content);
+                                // use content
+                            });
 
                           //
                           // GET THE LIST OF ENCRYPTED FILES AS AN AARAY
@@ -200,14 +234,14 @@
                     // if it is encrypted and called EPUB/style/style.css decrypt it
                     //
                     $.each(zip.files, function (index, zipEntry) {
-                        if (zipEntry.name == "EPUB/images/img_0020.png"){
+                        if (zipEntry.name == "EPUB/images/img_0013.png"){
                             //console.log("YES!");
                             //test = zipEntry.asText();
                             //console.log(test);
                             //console.log(stringToBytes(test));
                             //console.log(toHexString(stringToBytes(test)));
 
-                            var data = zip.file("EPUB/images/img_0020.png").asBinary();
+                            var data = zip.file("EPUB/images/img_0013.png").asBinary();
                             console.log(toHexString(stringToBytes(data)));
                             
                             //var data = zip.file("EPUB/images/img_0020.png").data;
@@ -221,8 +255,10 @@
 
 
                   // end of the magic !
+                  */
 
-                } catch(e) {
+                }                     
+                  catch(e) {
                   $ul.append("<li class='error'>Error reading " + theFile.name + " : " + e.message + "</li>");
                 }
                 $result.append($ul);
