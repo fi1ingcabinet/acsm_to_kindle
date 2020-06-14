@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JSZip example : download the generated zip file</title>
+
+<link media="screen" href="JSZip%20example%20download%20the%20generated%20zip%20file_files/style.css" type="text/css" rel="stylesheet">
+
+
+
+</head>
+<body>
+<h1><a href="https://heltschl.org/_js/jszip/">JSZip</a> example : download the generated zip file</h1>
+<p>Tip : check the source of the page !</p>
+<h2>The data URL</h2>
+<div>
+  Does not work in IE, has restrictions on the length.<br>
+  <a href="data:application/zip;base64,UEsDBAoAAAAAAFpvzlDV4Dm3DAAAAAwAAAAJAAAASGVsbG8udHh0SGVsbG8gd29ybGQKUEsBAhQACgAAAAAAWm/OUNXgObcMAAAADAAAAAkAAAAAAAAAAAAAAAAAAAAAAEhlbGxvLnR4dFBLBQYAAAAAAQABADcAAAAzAAAAAAA=" id="data_uri" download="hello.zip">click to download</a>
+</div>
+<h2>The Blob URL / saveAs</h2>
+<div>
+  Works on firefox, chrome , opera &gt;= 15 and IE &gt;= 10 (but NOT in compatibility view).<br>
+  <a href="blob:https://heltschl.org/bcad776c-8f1c-6242-8c18-034324a136bf" id="blob" download="hello.zip">click to download</a>
+</div>
+<script type="text/javascript" src="JSZip%20example%20download%20the%20generated%20zip%20file_files/jszip.js"></script>
+<script type="text/javascript">
+(function () {
+  var zip = new JSZip();
+  zip.file("Hello.txt", "Hello world\n");
+
+  function bindEvent(el, eventName, eventHandler) {
+    if (el.addEventListener){
+      // standard way
+      el.addEventListener(eventName, eventHandler, false);
+    } else if (el.attachEvent){
+      // old IE
+      el.attachEvent('on'+eventName, eventHandler);
+    }
+  }
+
+  // data URI
+  function downloadWithDataURI() {
+    dataUriLink.href = "data:application/zip;base64," + zip.generate({type:"base64"});
+    dataUriLink.download = "hello.zip";
+  }
+  var dataUriLink = document.getElementById('data_uri');
+  bindEvent(dataUriLink, 'click', downloadWithDataURI);
+
+  // Blob
+  var blobLink = document.getElementById('blob');
+  var saveAs = window.saveAs || (navigator.msSaveBlob && navigator.msSaveBlob.bind(navigator))
+  var blobDownloadSupported = JSZip.support.blob && (saveAs || window.URL && window.URL.createObjectURL);
+  if (blobDownloadSupported) {
+    function downloadWithBlob() {
+      try {
+        var blob = zip.generate({type:"blob"});
+        if (saveAs) {
+          saveAs(blob, "hello.zip");
+        } else {
+          blobLink.download = "hello.zip";
+          blobLink.href = window.URL.createObjectURL(blob);
+        }
+      } catch(e) {
+        blobLink.innerHTML += " " + e;
+      }
+      return false;
+    }
+    bindEvent(blobLink, 'click', downloadWithBlob);
+  } else {
+    blobLink.innerHTML += " (not supported on this browser)";
+  }
+})();
+</script>
+
+
+</body></html>

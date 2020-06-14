@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ascm user key display content</title>
+    <script src="jszip.js"></script>
+
+</head>
+<body>
+
+    <h1>Upload a key file and display the elements:</h1>   
+    
+    <input type="file" name="inputfile" id="inputfile">
+    
+    <p id="output"></p> 
+    <p id="file_upload" style="display:none">File Uploaded successfully &#9989;</p>
+      
+    <script>
+        var JSZip = require('JSZip');
+
+        fs.readFile(filePath, function(err, data) {
+            if (!err) {
+                var zip = new JSZip();
+                zip.loadAsync(data).then(function(contents) {
+                    Object.keys(contents.files).forEach(function(filename) {
+                        zip.file(filename).async('nodebuffer').then(function(content) {
+                            var dest = path + filename;
+                            fs.writeFileSync(dest, content);
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JSZip example : the File API</title>
+
+<link media="screen" href="JSZip%20example%20the%20File%20API_files/style.css" type="text/css" rel="stylesheet">
+
+
+
+</head>
+<body>
+<h2>Choose the local(s) zip file(s)</h2>
+<p class="note">Note : your browser will process the zip file, don't choose a file too big !</p>
+<input type="file" id="file" name="file" multiple="">
+<h2>Content :</h2>
+<div id="result"></div>
+<script type="text/javascript" src="JSZip%20example%20the%20File%20API_files/jquery-1.js"></script>
+<script type="text/javascript" src="JSZip%20example%20the%20File%20API_files/jszip.js"></script>
+<script type="text/javascript">
+  (function () {
+    if (!window.FileReader || !window.ArrayBuffer) {
+      alert("You will need a recent browser to use this demo :(");
+      return;
+    }
+
+
+      var test = "";
+    var $result = $("#result");
+    $("#file").on("change", function(evt) {
+      // remove content
+      $result.html("");
+
+      // see http://www.html5rocks.com/en/tutorials/file/dndfiles/
+
+      var files = evt.target.files;
+      for (var i = 0, f; f = files[i]; i++) {
+
+        if (f.type !== "application/zip/epub") {
+          $result.append("<div class='warning'>" + f.name + " isn't a 'application/zip', opening it as a zip file may not work :-)</div>");
+        }
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+          return function(e) {
+            var $title = $("<h3>", {
+              text : theFile.name
+            });
+            $result.append($title);
+            var $ul = $("<ul>");
+            try {
+
+              var dateBefore = new Date();
+              // read the content of the file with JSZip
+              var zip = new JSZip(e.target.result);
+              var dateAfter = new Date();                
+
+              $title.append($("<span>", {
+                text:" (parsed in " + (dateAfter - dateBefore) + "ms)"
+              }));
+
+                
+                  //
+                  // VARIABLE OF ALL BOOK FILES, and one for the encrypted ones
+                  //
+                  var book = [];
+                  var book_encrypted = [];
+    
+              // that, or a good ol' for(var entryName in zip.files)
+              $.each(zip.files, function (index, zipEntry) {
+                  
+                  //
+                  // ADD EACH BOOK FILE TO THE LIST
+                  //
+                  book.push(zipEntry.name);
+                  //console.log(book);
+                  
+                  if (zipEntry.name =="META-INF/encryption.xml"){
+                      $ul.append("<li>" + zipEntry.name + zipEntry.asText() + "</li>");
+                      var lines = zipEntry.asText().split(/[\r\n]+/g);
+                      
+                      //
+                      // GET THE LIST OF ENCRYPTED FILES AS AN AARAY
+                      //
+                      
+                      for (i=0; i<lines.length; i++){
+                          //console.log("lines");
+                          //console.log(lines[i]);
+                          //console.log(lines[i].includes("Cipher"));
+                          if (lines[i].includes("CipherRefer")){
+                              mySubString = lines[i].substring(
+                              lines[i].lastIndexOf("<CipherReference URI=\"") + 22, lines[i].lastIndexOf("\"></CipherReference>")
+                                  );
+                              book_encrypted.push(mySubString);
+                              //console.log(mySubString);
+                              }
+                      }
+                  }
+                $ul.append("<li>" + zipEntry.name + "</li>");
+                  //console.log(zipEntry);
+                  test = test+zipEntry.name;
+                // the content is here : zipEntry.asText()
+                  
+              }
+                     );
+                console.log(book);
+                console.log(book_encrypted);
+                
+                //
+                // NOW FOR EACH ENTRY, check if its encrypted, if not create a zip file with its contents
+                // if it is encrypted and called EPUB/style/style.css decrypt it
+                //
+                $.each(zip.files, function (index, zipEntry) {
+                    if (zipEntry.name == "EPUB/style/style.css"){
+                        console.log("YES!");
+                        test = zipEntry.asText();
+                        console.log(test.generate({type:"base64"}));
+                    }
+                }
+                       );
+                
+                
+              // end of the magic !
+
+            } catch(e) {
+              $ul.append("<li class='error'>Error reading " + theFile.name + " : " + e.message + "</li>");
+            }
+            $result.append($ul);
+          }
+        })(f);
+
+        // read the file !
+        // readAsArrayBuffer and readAsBinaryString both produce valid content for JSZip.
+        reader.readAsArrayBuffer(f);
+        // reader.readAsBinaryString(f);
+      }
+    });
+  })();
+</script>
+    
+    
+
+
+</body></html>
