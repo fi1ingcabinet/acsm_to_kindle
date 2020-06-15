@@ -4,7 +4,7 @@ Javascript only implementation to convert ascm to Kindle
 
 -Y    1. "Reading a local file with the File API_v2.html" Upload the ascm epub file
 -Y    1.1. unzip the file
--    1.2. 
+-    1.2. get list of encrytped and unencrypted files
 -    2. (IF ENCRYPTED) Locate encryption key and create book
 -    2.1. If the book elements are encrypted get the key from rights.xml
 -Y    2.2. "User Key" - Get the second file upload for user key
