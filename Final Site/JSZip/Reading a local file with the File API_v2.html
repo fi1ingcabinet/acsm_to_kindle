@@ -105,6 +105,7 @@ var BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
     <div id="result_block" class="hidden">
     <h3>Content :</h3>
     <div id="result"></div>
+        <p id="file_content"></p>
 </div>
     
 <script type="text/javascript">
@@ -162,6 +163,7 @@ var BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
                             console.log(zipEntry.name);
                             console.log(dataURI);
                             console.log(base64tobase16(dataURI));
+                            document.getElementById("file_content").innerHTML = base64tobase16(dataURI);
                         }
                         });
 

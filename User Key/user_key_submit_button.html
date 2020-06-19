@@ -16,9 +16,10 @@
      <button id="submit_file">Click me</button> 
       
     <script type="text/javascript"> 
-        var mySubString = "";
+        //var mySubString = "";
         document.getElementById('inputfile').addEventListener('change', function() { 
             file = this.files[0];
+            console.log(file);
             var fr=new FileReader(); 
             document.getElementById('submit_file').addEventListener('click', function() {
                 fr.onload=function(){ 

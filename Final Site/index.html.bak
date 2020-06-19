@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <!-- The following are required for JSZip -->
+    <script type="text/javascript" src="lib/jszip.js"></script>
+    <script type="text/javascript" src="lib/jszip-utils.js"></script>
+    <script type="text/javascript" src="lib/FileSaver.js"></script>
+    <script type="text/javascript" src="lib/upload_book.js"></script>
+    <script type="text/javascript" src="lib/upload_key_decr_key.js"></script>
+    <script type="text/javascript" src="lib/min.js"></script>
+    <script type="text/javascript" src="lib/rsa-rfc2313_v2.js"></script>
+    <script type="text/javascript" src="lib/BigInteger.js"></script>
+    
+    
+</head>
+<body>
+
+    <h1>Welcome to the encrypted epub to kindle site</h1>
+    <p>In this page we will input an ebook from Adobe Digital Editions and output a file we can email to a kindle in book format.</p>
+    
+    <h2>First import the book:</h2>
+    <p>To do this we need to upload an epub file and unzip it. I will use javascript JSZip. The example is in the GitHub under JSZip.</p>
+
+    <input type="file" id="file" name="file" multiple=""><br>
+    <input type="submit" id="submit_button" style="display:block" value="Submit File">
+    <h3>List of files:</h3>
+    <p>Here are all of the files within the epub:</p>
+    <pre id="file_list"></pre>
+    <h3>List of encrypted files (if any):</h3>
+    <p>Lets check if there are any encrypted files</p>
+    <pre id="encryption_flag_yes" style="visibility:">There are encrypted files in the ebook. They are:</pre>
+    <pre id="enc_file_list"></pre>
+    <pre id="encryption_flag_no" style="visibility:">There don't appear to be any encrypted files in the book.</pre>
+    
+    
+    <div id="need_key" style="visibility:hidden">
+        <h2>Upload a key file and display the elements:</h2>   
+
+        <input type="file" name="inputfile" id="inputfile">
+        <p id="file_upload" style="visibility:hidden">File Uploaded successfully &#9989;</p>
+        <button id="submit_file">Click me</button> 
+        <p>ASN.1 key:</p><pre id="output"></pre> 
+        <p>Parsed key:</p>
+        <div style="position: relative; padding-bottom: 1em;"> <!-- This div is required for the RSA key parse, don't ask me why -->
+            <div id="dump" style="position: absolute; right: 0px;"></div>
+            <div id="tree" style="display:none"></div>
+        </div>
+        <input id="butDecode" type="button" value="decode" onclick="decodeText(getElementById('output').innerHTML)">
+        <p id="key_d"></p>
+        <p id="key_e"></p>
+        <p id="key_n"></p>
+        <p>Here's the encrypted book key:</p>
+        <pre id="book_key"></pre>
+        <p>Here's the decrypted book key:</p>
+        <pre id="book_key_dec"></pre>
+        <input id="decode_book_key" type="button" value="decode book key" onclick="Decrypt_function_book(getElementById('book_key').innerHTML, getElementById('key_n').innerHTML, getElementById('key_d').innerHTML)">
+        
+    </div>
+    
+    <div id="build_book">
+        <h1>Now Build the book</h1>
+        <input type="submit" id="submit_button2" style="display:block" value="Submit File">
+        
+        
+        
+        
+    </div>
+    
+    <script>upload_book();</script>
+    <script>upload_key()</script>
+
+</body>
+</html>
