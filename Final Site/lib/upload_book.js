@@ -22,7 +22,7 @@ function upload_book() {
                             //
                             // Show all of the files in the zip file in the page
                             //
-                            document.getElementById('file_list').innerHTML += zipEntry.name + ", ";
+                            //document.getElementById('file_list').innerHTML += zipEntry.name + ", ";
                             all_files.push(zipEntry.name);
                             zipEntry.async("base64")
                                 .then(function (binary) {
@@ -54,13 +54,14 @@ function upload_book() {
                 // Check if there are encrypted files and add them to an array
                 //
                 //var encrypted_files = []
+                var enc_flag = 0;
                 function checkEncryptedAndParse(f) {
                     JSZip.loadAsync(f)    // 1) read the Blob
                     .then(function(zip) {
                         zip.forEach(function (relativePath, zipEntry) {
                             if (zipEntry.name.includes("encryption.xml")){
+                                enc_flag = 1;
                                 document.getElementById('encryption_flag_yes').style.visibility = "";
-                                document.getElementById('encryption_flag_no').style.visibility = "hidden";
                                 document.getElementById('need_key').style.visibility = "";
                                 //console.log(zipEntry.name)
 
@@ -78,13 +79,12 @@ function upload_book() {
                                                   );
                                             //console.log(mySubString);
                                             encrypted_files.push(mySubString);
-                                            document.getElementById('enc_file_list').innerHTML += mySubString + ", ";
                                             }
                                       }
                                     }
                                     );                                
                             }
-                            
+                            else if (enc_flag =0) {document.getElementById('encryption_flag_no').style.visibility = "";}
                             if (zipEntry.name.includes("rights.xml")){
                                 //document.getElementById('need_key').style.visibility = "";
 
@@ -117,7 +117,7 @@ function upload_book() {
 
                 for (var i = 0; i < file.length; i++) {
                     checkEncryptedAndParse(file[i]);
-                    document.getElementById('enc_file_list').innerHTML = encrypted_files.toString();
+                    //document.getElementById('enc_file_list').innerHTML = encrypted_files.toString();
                 }
                 console.log(all_files);
                 console.log(encrypted_files);

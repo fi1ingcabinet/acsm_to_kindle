@@ -19,6 +19,9 @@ function upload_key() {
             mySubString = fr.readAsText(file2);
 
             document.getElementById("file_upload").style.display = "block";
+            
+            decodeText(document.getElementById('output').innerHTML);
+            
         });
 
     });
