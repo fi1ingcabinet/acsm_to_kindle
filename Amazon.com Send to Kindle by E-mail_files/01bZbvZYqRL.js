@@ -1,0 +1,1 @@
+(function(f){var c=window.AmazonUIPageJS||window.P,e=c._namespace||c.attributeErrors,b=e?e("SendToKindleAUIFamilyScripts"):c;b.guardFatal?b.guardFatal(f)(b,window):b.execute(function(){f(b,window)})})(function(f,c,e){f.when("jQuery").execute(function(b){(c.$SendToKindle={bootstrap:function(){}}).bootstrap();f.register("s2k-family",function(){return{}})})});
