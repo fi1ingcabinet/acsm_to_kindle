@@ -23,41 +23,45 @@
     <p>In this page we will input an ebook from Adobe Digital Editions and output a file we can email to a kindle in book format.</p>
     
     <h2>First import the book:</h2>
-    <p>To do this we need to upload an epub file and unzip it. I will use javascript JSZip. The example is in the GitHub under JSZip.</p>
+    <div>
+        <input type="file" id="file" name="file" multiple="">
+        <input type="submit" id="submit_button" style="display:block" value="Submit File">
+        <p id="book_file_upload" style="display: none">File Uploaded successfully &#9989;</p>
+        <pre id="encryption_flag_yes" style="display: none">There are encrypted files in the ebook, please upload key below.</pre>
+        <pre id="encryption_flag_no" style="display: none">There don't appear to be any encrypted files in the book.</pre>
+        <pre id="book_key" style="display: none"></pre>
 
-    <input type="file" id="file" name="file" multiple=""><br>
-    <input type="submit" id="submit_button" style="display:block" value="Submit File">
-    <pre id="encryption_flag_yes" style="display: none">There are encrypted files in the ebook, please upload key below.</pre>
-    <pre id="encryption_flag_no" style="display: none">There don't appear to be any encrypted files in the book.</pre>
-    <pre id="book_key" style="display: none"></pre>
-    
-    <div id="need_key" style="visibility:hidden">
-        <h2>Upload a key file and display the elements:</h2>   
+        <div id="need_key" style="visibility:hidden">
+    </div>
+        <h2>Upload a key file:</h2>
+        <p>The 'user key' is located here: <br>
+        Mac: /Users/<your computer user>/Library/Application Support/Adobe/Digital Editions/ <br>
+            Its a secret file on Mac, to locate it you can hit "SHIFT + COMMAND + G" then type the above string in with yiour user in place of the <your computer user> bit</p>
 
         <input type="file" name="inputfile" id="inputfile">
-        <p id="file_upload" style="visibility:hidden">File Uploaded successfully &#9989;</p>
         <button id="submit_file">Click me</button> 
+        <p id="file_upload" style="display: none">File Uploaded successfully &#9989;</p>
         <pre id="output" style="display: none"></pre> 
         <div style="position: relative; padding-bottom: 1em;" style="display: none"> <!-- This div is required for the RSA key parse, don't ask me why -->
             <div id="dump" style="position: absolute; right: 0px;"></div>
             <div id="tree" style="display:none"></div>
         </div>
-        <input id="butDecode" type="button" value="decode" onclick="decodeText(getElementById('output').innerHTML)">
+        <input id="butDecode" type="button" value="decode" onclick="decodeText(getElementById('output').innerHTML)" style="display: none">
         <p id="key_d" style="display: none"></p>
         <p id="key_e" style="display: none"></p>
         <p id="key_n" style="display: none"></p>
-        <pre id="book_key_dec"></pre>
-        <input id="decode_book_key" type="button" value="decode book key" onclick="Decrypt_function_book(getElementById('book_key').innerHTML, getElementById('key_n').innerHTML, getElementById('key_d').innerHTML)">
+        <pre id="book_key_dec" style="display: none"></pre>
+        <input id="decode_book_key" type="button" value="decode book key" onclick="Decrypt_function_book(getElementById('book_key').innerHTML, getElementById('key_n').innerHTML, getElementById('key_d').innerHTML)" style="display: none">
         
     </div>
     
     <div id="build_book">
         <h1>Now Build the book</h1>
         <input type="submit" id="submit_button2" style="display:block" value="Submit File">
-        
-        
-        
-        
+        <p>A download popup should show up when the book is ready. Refresh the page to try another book :)</p>
+    </div>
+    <div>
+        <p>If you like this page, please give me a comment below, or on Github, send some bitcoins, buy me a beer, sponsor me to make other cool stuff, click the adds so I get paid :)</p>
     </div>
     
     <script>upload_book();</script>

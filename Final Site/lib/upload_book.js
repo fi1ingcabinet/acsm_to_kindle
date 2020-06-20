@@ -7,6 +7,7 @@ function upload_book() {
     document.getElementById('file').addEventListener('change', function() {
         //console.log(document.getElementById('file').value);
         file = this.files;
+        console.log(file.name);
             //console.log(this.files);
             document.getElementById('submit_button').addEventListener('click', function() {
             //document.getElementById('file').addEventListener('change', function() {
@@ -18,6 +19,7 @@ function upload_book() {
                     JSZip.loadAsync(f)    // 1) read the Blob
                     .then(function(zip) {
                         zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+                            console.log(f.name);
 
                             //
                             // Show all of the files in the zip file in the page
@@ -121,6 +123,8 @@ function upload_book() {
                 }
                 console.log(all_files);
                 console.log(encrypted_files);
+                
+                document.getElementById("book_file_upload").style.display = "block";
 
 
 })
@@ -232,7 +236,7 @@ function upload_book() {
                 
                 Promise.all(promises).then(function (data) {
                     zip_out.generateAsync({type:"blob"}).then(function (blob) {
-                        saveAs(blob, "hello2.epub");
+                        saveAs(blob, f.name);
                         });
                 });
                 
@@ -251,6 +255,11 @@ function upload_book() {
             var zip_out = new JSZip();
             handleFile2(file[i],zip_out);
                 }
-    });
+    
+    var all_files = [];
+    var encrypted_files = []
+    var book_key = "";
+    }
+                                                              );
         });
 }
