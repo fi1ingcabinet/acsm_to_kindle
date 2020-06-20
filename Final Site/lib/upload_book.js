@@ -3,6 +3,7 @@ function upload_book() {
     //document.getElementById('submit_button').addEventListener('click', function() {
     var all_files = [];
     var encrypted_files = []
+    var book_key = "";
     document.getElementById('file').addEventListener('change', function() {
         //console.log(document.getElementById('file').value);
         file = this.files;
@@ -125,98 +126,75 @@ function upload_book() {
 })
         
     document.getElementById('submit_button2').addEventListener('click', function() {
-            //document.getElementById('file').addEventListener('change', function() {
-            //file = this.files;
-        /*
-        console.log("two");
-                    //
-                    // Create a zip file test
-                    //
-                    var zip_t = new JSZip();
-                    test_array = [1,2,3];
-                    test_array.forEach(function(item, index) {
-                        if (item == 1) {
-                            console.log("test above:");
-                            zip_t.file("Hello.txt", "Hello world\n");
-                            console.log("test pass");
-                                        
-                                       }
-                        if (item == 2) {
-                            zip_t.file("Hello2.txt", "Hello world\n");
-                            console.log("test pass2");
-                                        
-                                       }
-                    }
-                    );
-                    zip_t.generateAsync({type:"blob"}).then(function (blob) { // 1) generate the zip file
-                        saveAs(blob, "hello.zip");                          // 2) trigger the download
-                    });
-        */
         
-                    //var zip_t = new JSZip();
-                    //zip_t.file("Hello.txt", "Hello world\n");
-                    //console.log(zip_t);
-                    //zip_t.file("Hello2.txt", "Hello world\n");
-                    //console.log(zip_t);
-                    //zip_t.generateAsync({type:"blob"}).then(function (blob) { // 1) generate the zip file
-                //        saveAs(blob, "hello.zip");                          // 2) trigger the download
-                //    });
         function handleFile2(f,zip_out) {
             //var zip_out = new JSZip();
             //console.log(zip_out);
+            //console.log("key2: ");
+            var key2 = document.getElementById('book_key_dec').innerHTML
+            console.log(key2);
+            //console.log(typeof key2);
+            var key3 = aesjs.utils.hex.toBytes(key2);
+            console.log(key3);
             JSZip.loadAsync(f)    // 1) read the Blob
             .then(function(zip) {
                 //var zip_out = new JSZip();
                 const promises = [];
                 zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-                    //console.log("three");
-                    console.log(zipEntry.name);
+                    //console.log(zipEntry.name);
                     // skip the encryption and rights.xml files, these will not be included in the new zip
                     if (zipEntry.name.includes("encryption.xml") || zipEntry.name.includes("rights.xml")) {
                         1==1;
-                        console.log("enc and rights: ")
+                        //console.log("enc and rights: ")
                         //console.log(zipEntry.name);
                     }
                     // Decrypt the encrypted files, and INFLATE them
                     else if (encrypted_files.includes(zipEntry.name)) {
-                        console.log("encrypted files: ")
+                        //console.log(zipEntry.name);
+                        //console.log("encrypted files: ")
                         //console.log(zipEntry.name);
                         //if (zipEntry.name.includes("img_0013")){
                         if (1==1){
                             promises.push(zipEntry.async("base64") // Load the content
                                 .then(function (binary) {
                                     var file_content = base64tobase16(binary);
-                                    console.log(file_content);
+                                    //console.log("file content: ");
+                                    //console.log(file_content);
+                                    //console.log(typeof file_content);
                                     var file_content = aesjs.utils.hex.toBytes(file_content);
-                                    console.log(file_content);
+                                    //console.log("file content hex to bytes: ");
+                                    //console.log(file_content);
                                     
-                                    var key = [ 0xf9, 0x25, 0xaa, 0x58, 0x05, 0xb4, 0xe3, 0xbd, 0xb2, 0x6d, 0x2c, 0xf3, 0x16, 0x9b, 0x3c, 0x98, ];
+                                    //var key = [ 0xf9, 0x25, 0xaa, 0x58, 0x05, 0xb4, 0xe3, 0xbd, 0xb2, 0x6d, 0x2c, 0xf3, 0x16, 0x9b, 0x3c, 0x98, ];
+                                    var key = key3;
+                                    //var key2 = [];
                                     //var iv = [ 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35, 36 ];
                                     //console.log(binary);
                                     
-                                    console.log("here: ");
+                                    //console.log("here: ");
                                     byte_array = file_content;
                                     //console.log(byte_array);
                                     var iv = byte_array.slice(0, 16);
                                     var enc_text = byte_array.slice(16);
-                                    console.log(iv);
-                                    console.log(enc_text);
+                                    //console.log(iv);
+                                    //console.log(enc_text);
                                     const toHexString = bytes => bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
-                                    console.log(toHexString(iv));
-                                    console.log(toHexString(enc_text));
+                                    //console.log(toHexString(iv));
+                                    //console.log(toHexString(enc_text));
                                     var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
                                     var decryptedBytes = aesCbc.decrypt(enc_text);
+                                    //console.log(decryptedBytes);
 
                                     // Convert our bytes back into text
                                     var decryptedText = aesjs.utils.hex.fromBytes(decryptedBytes);
-                                    console.log(decryptedText);
+                                    //console.log(decryptedText);
                                 
                                 
                                     //
                                     // Now INFLATE IT
                                     //
                                     var output = pako.inflateRaw(decryptedBytes,{window_size:-15});
-                                    console.log(output);
+                                    //console.log(output);
                                     //chardata3 = toHexString(output);
                                     //console.log(chardata3);
                                 
@@ -234,12 +212,12 @@ function upload_book() {
                     }
                     else {
                         //console.log("unenc files: ")
-                        console.log(zipEntry.name);
-                        
+                        //console.log(zipEntry.name);
+                        //console.log(zipEntry.name);
                         promises.push(zipEntry.async("blob")
                                 .then(function (blob_text) {
                                     var file_content = blob_text;
-                                    console.log(file_content);
+                                    //console.log(file_content);
                                     zip_out.file(zipEntry.name.toString(), file_content);
                             //zip_out.generateAsync({type:"blob"}).then(function (blob) {saveAs(blob, "hello2.zip");});
                             //console.log(zip_out);

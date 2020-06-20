@@ -149,7 +149,19 @@ function RSAcomputationD(y,d,n) {
 // §9.4 - parse
 function ParseDecr(string){
     
-    ct = string.split('00')[1];
+    //ct = string.split('00')
+    console.log("CT");
+    ct = string.substring(string.indexOf("00") + 2, string.length);
+    console.log(ct);
+    
+    if (ct[0]=="0") {
+        ct = ct.substring(1);
+        
+    } 
+    else {
+        1==1;
+    }
+    
     key = ct;
     ct = hex2a(ct);
     //console.log(ct);
@@ -158,7 +170,7 @@ function ParseDecr(string){
 }
 
 function Decrypt_function(ctext, RSA_Key){
-    
+    //console.log("Test");
     // §9.1
     //console.log(ctext);
     big_num = OctetToStringConversion10(ctext);
@@ -173,7 +185,6 @@ function Decrypt_function(ctext, RSA_Key){
     //console.log(x);
     // §9.3
     s = OctetToStringConversion16(x);
-    //console.log(s);
     // §9.4
     pt = ParseDecr(s).ct;
     key = ParseDecr(s).key;
@@ -199,10 +210,14 @@ function Decrypt_function_book(ctext, d,n){
     //console.log(x);
     // §9.3
     s = OctetToStringConversion16(x);
+    console.log("s");
+    console.log(s);
     //console.log(s);
     // §9.4
     pt = ParseDecr(s).ct;
     key = ParseDecr(s).key;
+    console.log(pt);
+    console.log(key);
     
     //console.log(pt,key);
     document.getElementById('book_key_dec').innerHTML = key;
