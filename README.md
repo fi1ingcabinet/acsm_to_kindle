@@ -1,33 +1,11 @@
 # ascm_to_kindle
 
-Javascript only implementation to convert ascm to Kindle
+## Javascript only implementation to convert ascm to Kindle
 
--Y    1. "Reading a local file with the File API_v2.html" Upload the ascm epub file
--Y    1.1. unzip the file
--    1.2. get list of encrytped and unencrypted files
+This a javascript only implementation to create a decrypted epub book opened in Adobe Digital Editions, allowing it to open in other epub readers (Apple Books, etc.)
 
-
--    2. (IF ENCRYPTED) Locate encryption key and create book
--Y    2.1. If the book elements are encrypted get the key from rights.xml
--Y    2.2. "User Key" - Get the second file upload for user key
--Y    2.3. "Parse User Key" - parse user key
--Y    2.4. "cryptico/test_rsa_book_key.html" decrypt book key with user key
--Y    2.5. "JSZip example download the generated zip file_edited.html" Create a new book template with all unencrypted files (excl config files)
--    2.6. Decrypt the rest of the book files and add them to the new template
--    2.7. Zip the new template as epub and prompt download
-
-___________________________________________
--    3. Create kindle html file
--    3.1. IF NOT ENCRYPTED - take original file and make html
--    3.2. IF ENCRYPTED - take the above file and make html
--    3.1. Parse the book into html file 
--    4. Show how to send to kindle
--    4.1. email with condition "configure" or whatever it is to create a book
-
-___________________________________________
-
-Final site:
-
-1. Upload key
-2. Decrypt key
-3. Load book
+1. Upload an epub file using JSZip (example in the JSZip folder)
+1.1. When its uploaded automatically check if there are encrypted files in there and pull out the encrytped book key if so
+2. If prompted, upload the encryption key for the User (used to decrypt the book key)
+2.1. Click to decrypt the book key (parse user key > decrypt book key)
+3. Build the book (copy all non-encrypted files, decrypt encrypted files and copy them, output the book)
