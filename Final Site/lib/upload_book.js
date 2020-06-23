@@ -133,6 +133,8 @@ function upload_book() {
         
         function handleFile2(f,zip_out) {
             //var zip_out = new JSZip();
+            //console.log("ENC FILES");
+            //console.log(encrypted_files);
             //console.log(zip_out);
             //console.log("key2: ");
             var key2 = document.getElementById('book_key_dec').innerHTML
@@ -150,20 +152,24 @@ function upload_book() {
                     if (zipEntry.name.includes("encryption.xml") || zipEntry.name.includes("rights.xml")) {
                         1==1;
                         //console.log("enc and rights: ")
-                        //console.log(zipEntry.name);
+                        console.log(zipEntry.name);
+                        console.log("ENCRYPTED FILES: ");
+                        console.log(encrypted_files);
                     }
                     // Decrypt the encrypted files, and INFLATE them
                     else if (encrypted_files.includes(zipEntry.name)) {
                         //console.log(zipEntry.name);
+                        console.log("test");
                         //console.log("encrypted files: ")
                         //console.log(zipEntry.name);
                         //if (zipEntry.name.includes("img_0013")){
                         if (1==1){
                             promises.push(zipEntry.async("base64") // Load the content
                                 .then(function (binary) {
+                                    console.log("Test");
                                     var file_content = base64tobase16(binary);
-                                    //console.log("file content: ");
-                                    //console.log(file_content);
+                                    console.log("file content: ");
+                                    console.log(file_content);
                                     //console.log(typeof file_content);
                                     var file_content = aesjs.utils.hex.toBytes(file_content);
                                     //console.log("file content hex to bytes: ");
@@ -191,7 +197,7 @@ function upload_book() {
 
                                     // Convert our bytes back into text
                                     var decryptedText = aesjs.utils.hex.fromBytes(decryptedBytes);
-                                    //console.log(decryptedText);
+                                    console.log(decryptedText);
                                 
                                 
                                     //
@@ -216,7 +222,7 @@ function upload_book() {
                     }
                     else {
                         //console.log("unenc files: ")
-                        //console.log(zipEntry.name);
+                        //console.log("test");
                         //console.log(zipEntry.name);
                         promises.push(zipEntry.async("blob")
                                 .then(function (blob_text) {
@@ -240,6 +246,7 @@ function upload_book() {
                         });
                 });
                 
+                
                 /*
                 zip_out.generateAsync({type:"blob"}).then(function (blob) {
                             saveAs(blob, "hello2.zip");
@@ -249,16 +256,16 @@ function upload_book() {
                         console.log(e);
                     }
                  );
+            //var all_files = [];
+            //var encrypted_files = []
+            //var book_key = "";
             }
         for (var i = 0; i < file.length; i++) {
             console.log(file[i]);
+            //console.log(encrypted_files)
             var zip_out = new JSZip();
             handleFile2(file[i],zip_out);
                 }
-    
-    var all_files = [];
-    var encrypted_files = []
-    var book_key = "";
     }
                                                               );
         });
