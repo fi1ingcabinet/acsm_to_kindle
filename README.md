@@ -15,3 +15,4 @@ There are python implementations, desktop programs (like calibre) and sites but 
 3. Build the epub book (copy all non-encrypted files, decrypt encrypted files and copy them, output the book)
 
 ###Still to implement - convert epub to kindle
+.
