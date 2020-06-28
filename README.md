@@ -14,5 +14,7 @@ There are python implementations, desktop programs (like calibre) and sites but 
 2.1. Click to decrypt the book key (parse user key > decrypt book key)
 3. Build the epub book (copy all non-encrypted files, decrypt encrypted files and copy them, output the book)
 
+See it in action here: https://cryptobloggins.com/?p=615
+
 ###Still to implement - convert epub to kindle
 .
